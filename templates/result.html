@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>REINS一括取得</h1>
+    <p style="margin-top: 40px;"></p>
+    
+
+    <h3>選択された検索条件</h3>
+    <p>
+        {% if search_method_value == "search_solding" %}
+            売買 物件検索
+        {% else %}
+            賃貸 物件検索
+        {% endif %}
+        <br>
+        {{ search_requirement }}
+    </p>
+    <p><br></p>
+    {% if no_exist_search_requirement %}
+        <h3>検索条件が保存されていません</h3>
+        <p><br></p>
+    {% endif %}
+
+    {% if csv_path_from_static %}
+        <h3>正常に取得できました</h3>
+        <div class="button019">
+            <a href="{{ url_for('csv_download') }}">CSV形式でダウンロード</a>
+        </div>
+        <br>
+        <div class="button019">
+            <a href="{{ url_for('excel_download') }}">Excel形式でダウンロード</a>
+        </div>
+        <p><br></p>
+    {% endif %}
+
+    <p><br><br></p>
+
+{% endblock %}

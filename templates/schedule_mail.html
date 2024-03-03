@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>定期実行の送信先メールアドレスの編集</h1>
+    <form action="/schedule_mail" method="POST">
+        <h3>追加済みメールアドレス</h3>
+        <p>各メールアドレスを追加、編集、削除できます。</p>
+        <textarea type="text" name="mail_list" class="textArea">{{ receive_mail_list_str }}</textarea>
+        <p>上記フォームの中にメールアドレスを1つずつ改行して入力してください</p>
+        <p><br></p>
+
+        <h3>送信元メールアドレス</h3>
+        <p style="font-size: 14px;">※ 基本的に2度目以降の変更は不要です</p>
+        <p>
+            Gmailアドレス<br>
+            <input type="text" name="from_email" value="{{ from_email }}">
+        </p>
+        <p>
+            アプリパスワード<br>
+            （上記GmailのGoogleアカウント上の設定が必要です）<br>
+            <input type="text" name="from_email_smtp_password" value="{{ from_email_smtp_password }}">
+        </p>
+        <p><br></p>
+        <button type="submit" class="btn">変更を送信</button>
+    </form>
+
+{% endblock %}

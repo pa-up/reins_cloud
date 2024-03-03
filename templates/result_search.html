@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>検索方法と検索条件の変更結果</h1>
+    <p style="margin-top: 40px;"></p>
+    
+
+    <h3>変更された検索条件</h3>
+    <p>
+        {% if search_method_value == "search_solding" %}
+            売買 物件検索
+        {% else %}
+            賃貸 物件検索
+        {% endif %}
+        <br>
+        {{ search_requirement }}
+    </p>
+    <p><br></p>
+    {% if no_exist_search_requirement %}
+        <h3>検索条件が保存されていません</h3>
+        <p><br></p>
+    {% endif %}
+
+    <p><br><br></p>
+
+{% endblock %}

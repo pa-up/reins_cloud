@@ -1,0 +1,244 @@
+img {
+    /* width: 10px; */
+    margin: 20px;
+    border: 1px solid #000;
+    width: 500px;
+}
+
+.img-block {
+    border: 20px;
+}
+
+.header-title {
+    display: flex;
+    width: 100%;
+    height: 30%;
+    padding: 4px 30px;
+    padding-top: 8px;
+    align-items: center;
+    background-color: rgb(221, 244, 208);
+    border-bottom: solid;
+    border-color:#6d6d6d;
+    border-width: 5px;
+    font-weight:bold
+}
+
+
+.header-group {
+    display: flex;
+    width: 100%;
+    height: 30%;
+    align-items: center;
+    background-color: rgb(234, 231, 231);
+    border-bottom: solid;
+    border-color:#6d6d6d;
+    border-width: 5px;
+}
+
+/* .left-border {
+    border-left: solid;
+    border-width: 5px;
+    padding-right: 15px;
+    border-color:rgb(166, 165, 165);
+} */
+
+
+.flex-col {
+    flex-direction: column;
+
+    border-left: solid;
+    border-width: 5px;
+    padding-right: 15px;
+    border-color:rgb(166, 165, 165);
+
+    margin-left: 20px;
+}
+
+
+header {
+    display: flex;
+}
+
+header a {	
+    text-decoration: none;
+    color: #3e3e3e;
+    font-size: 16pX;
+}
+
+.header-group header a:hover{
+    border-bottom: solid;
+    border-color:blue;
+    border-width: 6px;
+    padding: 20px 0;
+    background-color: #c2dee7;
+}
+
+.header-group .header-left a:hover {
+    border-bottom: solid;
+    border-color:blue;
+    border-width: 6px;
+    padding: 44px 0;
+}
+
+
+.menu-item {
+    list-style: none;
+    display: inline-block;
+    padding-right: 8px;
+}
+
+.menu-item-top {
+    padding-top: 12px;
+    padding-left: 40px;
+
+    border-bottom: solid;
+    border-width: 5px;
+    padding-bottom: 8px;
+    border-color:rgb(166, 165, 165);
+}
+
+/* .menu-item-uni {
+    border-right: solid;
+    border-color:rgb(0, 0, 0);
+} */
+
+main {
+    padding: 10px 30px;
+}
+
+.display-text {
+    background-color: #f0f2f6;
+    padding: 20px;
+    border-radius:5px;
+    cursor: text;
+}
+
+input {
+    background-color: #f0f2f6;
+    width: 300px;
+    cursor: text;
+    padding: 10px;
+}
+
+.textArea {
+    background-color: #f0f2f6;
+    padding: 10px;
+    border-radius:5px;
+    width: 300px;
+    height: 100px;
+    resize: vertical;
+    overflow-y: scroll; /* 縦方向にスクロール可能にする */
+}
+
+.btn {
+    display: block;
+    text-decoration: none;
+    width: 120px;
+    height: 40px;
+    font-weight: bold;
+    border: 2px solid #27acd9;
+    background: #27acd9;
+    color: #fff;
+    border-radius: 100vh;
+    transition: 0.5s;
+}
+
+.btn:hover {
+    color: #27acd9;
+    background: #fff;
+    cursor: pointer;
+}
+
+
+.btn2 {
+    display: block;
+    /* text-decoration: none; */
+    width: 120px;
+    height: 40px;
+    font-weight: bold;
+    border: 2px solid #585a5a;
+    background: #585a5a;
+    color: #fff;
+    border-radius: 1vh;
+    transition: 0.5s;
+}
+
+.btn2:hover {
+    color: #585a5a;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* 019 */
+.button019 a {
+    background: #eee;
+    border-radius: 3px;
+    position: relative;
+    justify-content: space-around;
+    max-width: 250px;
+    padding: 15px 45px;
+    color: #313131;
+    transition: 0.3s ease-in-out;
+    font-weight: 500;
+}
+
+.button019 a:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    bottom: 0;
+    right: 2rem;
+    font-size: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: right 0.3s;
+    width: 6px;
+    height: 6px;
+    border-top: solid 2px currentColor;
+    border-right: solid 2px currentColor;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.button019 a:hover {
+    background: #6bb6ff;
+    color: #FFF;
+}
+
+.button019 a:hover:after {
+    right: 1.4rem;
+}
+
+
+.display-text {
+    position: relative;
+    padding: 1.0rem 1.5rem;
+    border: 4px solid #000;
+    overflow-x: scroll;
+}
+
+.copy-object {
+    display: flex;
+    margin: 10px;
+}
+.copy-message {
+    margin-left: 6px;
+    padding-top: 3px;
+    height: 30px;
+}
+
+.copy-button {
+    border: 2px solid #27acd9;
+    background: #27acd9;
+    color: #fff;
+    border-radius: 100vh;
+    transition: 0.5s;
+    width: 60px;
+    height: 30px;
+}
+
+.copy-button:hover {
+    color: #27acd9;
+    background: #fff;
+    cursor: pointer;
+}

@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>REINS一括取得</h1>
+    <p style="margin-top: 40px;"></p>
+
+    <!-- フォームに関するUI -->
+    <h3>スクレイピングのオプション</h3>
+    {% if login_flag == "OK" %}
+        <form action="/result" method="POST" id="ajax-result">
+            <input type="hidden" name="start_scraping" value="true">
+            <p>
+                検索方法を選択<br>
+                <select name="search_method_value" id="search_method">
+                    <option value="search_solding">売買 物件検索</option>
+                    <option value="search_rental">賃貸 物件検索</option>
+                </select>
+            </p>
+
+            <p>
+                検索条件を選択<br>
+                <div id="dynamic_options">
+                    <!-- 動的な選択肢フォームがここに追加されます -->
+                </div>
+            </p>
+
+            <!-- <p>
+                検索条件を選択<br>
+                <select name="search_method">
+                    {% for solding_search_method in solding_search_method_list %}
+                        <option value=loop.index>{{ solding_search_method }}</option>
+                    {% endfor %}
+                </select>
+            </p> -->
+            <button type="submit" class="btn" onclick="OnButtonClick();" style="margin-top: 30px;">取得開始</button>
+            <p></p>
+            {% if not csv_path_from_static %}
+                <div id="js_output"></div>
+            {% endif %}
+        </form>
+    {% else %}
+        {{ login_flag }}
+    {% endif %}
+    <p><br></p>
+
+    <script>
+        document.getElementById("ajax-result").addEventListener("submit", function () {
+            $('.btn').remove();
+        });
+    </script>
+    <!-- フォームに関するUIここまで -->
+
+    <p><br><br></p>
+
+
+    {% if login_flag == "OK" %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const searchMethodSelect = document.getElementById('search_method');
+                const dynamicOptions = document.getElementById('dynamic_options');
+
+                // 初期表示時に動的な選択肢を生成
+                generateDynamicOptions(searchMethodSelect.value);
+
+                // 選択肢フォームが変更されたときに呼び出す関数
+                searchMethodSelect.addEventListener('change', function () {
+                    generateDynamicOptions(this.value);
+                });
+
+                // 選択されたオプションに基づいて動的な選択肢フォームを生成する関数
+                function generateDynamicOptions(selectedValue) {
+                    dynamicOptions.innerHTML = ''; // 既存の要素をクリア
+
+                    if (selectedValue === 'search_solding') {
+                        //「売買物件検索」が選択された場合の選択肢フォームを生成
+                        const selectElement = document.createElement('select');
+                        selectElement.name = 'solding';
+                        var options = JSON.parse('{{ solding_search_method_list | tojson }}');
+                        options.forEach(function (option) {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option;
+                            optionElement.textContent = option;
+                            selectElement.appendChild(optionElement);
+                        });
+                        dynamicOptions.appendChild(selectElement);
+                    } else if (selectedValue === 'search_rental') {
+                        //「賃貸物件検索」が選択された場合の選択肢フォームを生成
+                        const selectElement = document.createElement('select');
+                        selectElement.name = 'rental';
+                        var options = JSON.parse('{{ rental_search_method_list | tojson }}');
+                        options.forEach(function (option) {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option;
+                            optionElement.textContent = option;
+                            selectElement.appendChild(optionElement);
+                        });
+                        dynamicOptions.appendChild(selectElement);
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+{% endblock %}

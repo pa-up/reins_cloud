@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>REINS一括取得</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+        <script language="javascript" type="text/javascript">
+            function OnButtonClick() {
+                target = document.getElementById("js_output");
+                target.innerHTML = "<br><h3>実行中〜少々お待ちください</h3>";
+            }
+        </script>
+    </head>
+
+    <body>
+        <header class="header-title">
+            <!-- <div class="header-title">--><a href="{{ url_for('index') }}">REINSスクレイピング</a><!--</div> -->
+        </header>
+        <div class="header-group">
+            <header class="header-left">
+                <nav class="nav">
+                    <ul class="menu-group">
+                            <li class="menu-item"><a href="{{ url_for('order_scraping') }}">手動指示</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <header>
+                <div class="flex-col">
+                    <div class="menu-item-top">定期日時指示</div>
+                    <nav class="nav">
+                        <ul class="menu-group">
+                                <li class="menu-item"><a href="{{ url_for('schedule_search') }}">検索条件変更</a></li>
+                                <li class="menu-item"><a href="{{ url_for('schedule_mail') }}">送信先変更</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+        </div>
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <p><br><br></p>
+    </body>
+
+</html>
