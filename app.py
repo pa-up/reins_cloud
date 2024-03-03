@@ -279,7 +279,7 @@ def list_to_excel(to_excel_list: list , output_excel_path: str = "output.xlsx"):
     print("Excelのワークブック起動完了 : workbook = openpyxl.load_workbook()")
     sheet = workbook.active
     print("ワークブックのアクティブ化完了 : sheet = workbook.active")
-    
+
     # 多次元リストのサイズを取得(行ごとで列数に違いがあることを考慮)
     row_num , col_num = len(to_excel_list) , 0
     for row in range(row_num):
@@ -365,6 +365,7 @@ def mail_list_to_excel(receive_mail_list , mail_excel_path):
     """ メールリストのエクセルファイルを変更する関数 """
     workbook = openpyxl.load_workbook(mail_excel_path)
     sheet = workbook.active
+    
     # C列の2行目から順にメールリストの要素を書き込む
     start_row = 2  # 2行目から始める例
     for receive_mail in receive_mail_list:
