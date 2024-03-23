@@ -31,15 +31,9 @@ output_reins_excel_path = static_path + "/output_excel/output_reins.xlsx"
 
 
 # 環境変数の取得
-# user_id , password = os.environ.get('SECRET_USER_ID') , os.environ.get('SECRET_PASSWORD')
-# s3_accesskey , s3_secretkey = os.environ.get('S3_ACCESSKEY') , os.environ.get('S3_SECRETKEY')
-# s3_bucket_name = os.environ.get('S3_BUCKET_NAME')
-
-# 環境変数なし
-user_id , password = "127128210603" , "euc3ta"
-s3_accesskey = "AKIAU6GDUPG6NIO6IFWI"
-s3_secretkey = "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"
-s3_bucket_name = "s3-media-reins"
+user_id , password = os.environ.get('SECRET_USER_ID') , os.environ.get('SECRET_PASSWORD')
+s3_accesskey , s3_secretkey = os.environ.get('S3_ACCESSKEY') , os.environ.get('S3_SECRETKEY')
+s3_bucket_name = os.environ.get('S3_BUCKET_NAME')
 
 
 # s3の定義
