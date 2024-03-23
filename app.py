@@ -23,18 +23,18 @@ static_path = "static/"
 app = Flask(__name__ , template_folder=templates_path, static_folder=static_path)
 
 # パスの定義
-mail_excel_path = static_path + "/input_excel/email_pw.xlsx"
-search_method_csv_path = static_path + "/csv/search_method.csv"
-output_reins_csv_path_from_static = "/csv/output_reins.csv"
+mail_excel_path = static_path + "input_excel/email_pw.xlsx"
+search_method_csv_path = static_path + "csv/search_method.csv"
+search_method_excel_path = static_path + "input_excel/search_method.xlsx"
+output_reins_csv_path_from_static = "csv/output_reins.csv"
 output_reins_csv_path = static_path + output_reins_csv_path_from_static
-output_reins_excel_path = static_path + "/output_excel/output_reins.xlsx"
+output_reins_excel_path = static_path + "output_excel/output_reins.xlsx"
 
 
 # 環境変数の取得
 user_id , password = os.environ.get('SECRET_USER_ID') , os.environ.get('SECRET_PASSWORD')
 s3_accesskey , s3_secretkey = os.environ.get('S3_ACCESSKEY') , os.environ.get('S3_SECRETKEY')
 s3_bucket_name = os.environ.get('S3_BUCKET_NAME')
-
 
 # s3の定義
 s3_region = "ap-northeast-1"   # 東京(アジアパシフィック)：ap-northeast-1
@@ -44,16 +44,6 @@ manipulate_s3 = ManipulateS3(
     secretkey = s3_secretkey ,
     bucket_name = s3_bucket_name ,
 )
-
-
-# パスの定義
-mail_excel_path = static_path + "/input_excel/email_pw.xlsx"
-search_method_csv_path = static_path + "/csv/search_method.csv"
-search_method_excel_path = static_path + "/input_excel/search_method.xlsx"
-output_reins_csv_path_from_static = "/csv/output_reins.csv"
-output_reins_csv_path = static_path + output_reins_csv_path_from_static
-output_reins_excel_path = static_path + "/output_excel/output_reins.xlsx"
-
 
 
 # S3からメール情報や検索条件を取得し、静的フォルダに格納
