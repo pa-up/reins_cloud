@@ -7,15 +7,29 @@
 
     <h3>変更された検索条件</h3>
     <p>
-        {% if search_method_value == "search_solding" %}
-            売買 物件検索
-        {% else %}
-            賃貸 物件検索
-        {% endif %}
+        売買 物件検索
         <br>
-        {{ search_requirement }}
+        {% if select_solding_list != [] %}
+            {% for select_solding in select_solding_list %}
+                {{ select_solding }}
+            {% endfor %}
+        {% else %}
+            取得しない
+        {% endif %}
+    </p>
+    <p>
+        賃貸 物件検索
+        <br>
+        {% if select_rental_list != [] %}
+            {% for select_rental in select_rental_list %}
+                {{ select_rental }}
+            {% endfor %}
+        {% else  %}
+            取得しない
+        {% endif %}
     </p>
     <p><br></p>
+
     {% if no_exist_search_requirement %}
         <h3>検索条件が保存されていません</h3>
         <p><br></p>

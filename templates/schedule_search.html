@@ -5,8 +5,37 @@
     <p style="margin-top: 40px;"></p>
 
     <h3>設定中の検索方法と検索条件</h3>
-    <p>設定中の検索方法 : {{ schedule_search_method }}</p>
-    <p>設定中の検索条件 : {{ schedule_search_requirement }}</p>
+    <p>
+        売買 物件検索
+        <br>
+        {% if past_select_solding_list != [] %}
+            <ul>
+                {% for past_select_solding in past_select_solding_list %}
+                    <li>{{ past_select_solding }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <ul>
+                <li>取得しない</li>
+            </ul>
+        {% endif %}
+    </p>
+
+    <p>
+        賃貸 物件検索
+        <br>
+        {% if past_select_rental_list != [] %}
+            <ul>
+                {% for past_select_rental in past_select_rental_list %}
+                    <li>{{ past_select_rental }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <ul>
+                <li>取得しない</li>
+            </ul>
+        {% endif %}
+    </p>
     <p><br></p>
 
     <h3>検索方法と検索条件を変更</h3>
@@ -15,28 +44,36 @@
         <form action="/search_result" method="POST" id="ajax-result">
             <input type="hidden" name="start_scraping" value="true">
             <p>
-                検索方法を変更<br>
-                <select name="search_method_value" id="search_method">
-                    <option value="search_solding">売買 物件検索</option>
-                    <option value="search_rental">賃貸 物件検索</option>
-                </select>
+                ① 検索方法を変更<br>
+                <!-- <select name="search_method_value" id="search_method"> -->
+                    <!-- <option value="search_solding">売買 物件検索</option>
+                    <option value="search_rental">賃貸 物件検索</option> -->
+
+                    <p>
+                        売買 物件検索
+                        <br>
+                        <input type="checkbox" name="search_solding_value" value="search_solding" onclick="checkIfChecked()">
+                    </p>
+                    <p>
+                        賃貸 物件検索 
+                        <br>
+                        <input type="checkbox" name="search_rental_value" value="search_rental" onclick="checkIfChecked()">
+                    </p>
+                    
+
+                <!-- </select> -->
             </p>
 
             <p>
-                検索条件を変更<br>
-                <div id="dynamic_options">
-                    <!-- 動的な選択肢フォームがここに追加されます -->
+                ② 取得する検索条件を変更<br>
+                <p>↓ cmdやCtrlを押しながら複数選択が可能です</p>
+                <!-- <div id="dynamic_options">
+                </div> -->
+                <div id="dynamic_options_solding">
+                </div>
+                <div id="dynamic_options_rental">
                 </div>
             </p>
-
-            <!-- <p>
-                検索条件を選択<br>
-                <select name="search_method">
-                    {% for solding_search_method in solding_search_method_list %}
-                        <option value=loop.index>{{ solding_search_method }}</option>
-                    {% endfor %}
-                </select>
-            </p> -->
             <button type="submit" class="btn" onclick="OnButtonClick();" style="margin-top: 30px;">変更</button>
             <p></p>
             {% if not csv_path_from_static %}
@@ -60,49 +97,177 @@
 
     {% if login_flag == "OK" %}
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const searchMethodSelect = document.getElementById('search_method');
-                const dynamicOptions = document.getElementById('dynamic_options');
 
-                // 初期表示時に動的な選択肢を生成
-                generateDynamicOptions(searchMethodSelect.value);
+        function checkIfChecked() {
+            const searchMethodSelect = document.getElementById('search_method');
+            const dynamicOptionSolding = document.getElementById('dynamic_options_solding');
+            const dynamicOptionRental = document.getElementById('dynamic_options_rental');
 
-                // 選択肢フォームが変更されたときに呼び出す関数
-                searchMethodSelect.addEventListener('change', function () {
-                    generateDynamicOptions(this.value);
+            var checkbox1 = document.querySelector('input[name="search_solding_value"]');
+            var checkbox2 = document.querySelector('input[name="search_rental_value"]');
+            if (checkbox1.checked && !checkbox2.checked) {
+                console.log("search_solding がチェックされました");
+                //「売買物件検索」が選択された場合の選択肢フォームを生成
+                var selectElement = document.createElement('select');
+                selectElement.name = 'select_solding';
+                selectElement.multiple = true;
+                var options = JSON.parse('{{ solding_search_method_list | tojson }}');
+                options.forEach(function (option) {
+                    var optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectElement.appendChild(optionElement);
                 });
-
-                // 選択されたオプションに基づいて動的な選択肢フォームを生成する関数
-                function generateDynamicOptions(selectedValue) {
-                    dynamicOptions.innerHTML = ''; // 既存の要素をクリア
-
-                    if (selectedValue === 'search_solding') {
-                        //「売買物件検索」が選択された場合の選択肢フォームを生成
-                        const selectElement = document.createElement('select');
-                        selectElement.name = 'solding';
-                        var options = JSON.parse('{{ solding_search_method_list | tojson }}');
-                        options.forEach(function (option) {
-                            const optionElement = document.createElement('option');
-                            optionElement.value = option;
-                            optionElement.textContent = option;
-                            selectElement.appendChild(optionElement);
-                        });
-                        dynamicOptions.appendChild(selectElement);
-                    } else if (selectedValue === 'search_rental') {
-                        //「賃貸物件検索」が選択された場合の選択肢フォームを生成
-                        const selectElement = document.createElement('select');
-                        selectElement.name = 'rental';
-                        var options = JSON.parse('{{ rental_search_method_list | tojson }}');
-                        options.forEach(function (option) {
-                            const optionElement = document.createElement('option');
-                            optionElement.value = option;
-                            optionElement.textContent = option;
-                            selectElement.appendChild(optionElement);
-                        });
-                        dynamicOptions.appendChild(selectElement);
-                    }
+                // dynamicOptionSolding の子要素を全て削除
+                while (dynamicOptionSolding.firstChild) {
+                    dynamicOptionSolding.removeChild(dynamicOptionSolding.firstChild);
                 }
-            });
+                while (dynamicOptionRental.firstChild) {
+                    dynamicOptionRental.removeChild(dynamicOptionRental.firstChild);
+                }
+                dynamicOptionSolding.appendChild(selectElement);
+
+                var notes = document.createElement('p');
+                notes.innerText = "↑ cmdやCtrlを押しながら複数選択が可能です";
+                
+            } else if (checkbox2.checked && !checkbox1.checked) {
+                console.log("search_rental がチェックされました");
+                //「賃貸物件検索」が選択された場合の選択肢フォームを生成
+                var selectElement = document.createElement('select');
+                selectElement.name = 'select_rental';
+                selectElement.multiple = true;
+                var options = JSON.parse('{{ rental_search_method_list | tojson }}');
+                options.forEach(function (option) {
+                    var optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectElement.appendChild(optionElement);
+                });
+                // dynamicOptionSolding の子要素を全て削除
+                while (dynamicOptionRental.firstChild) {
+                    dynamicOptionRental.removeChild(dynamicOptionRental.firstChild);
+                }
+                while (dynamicOptionSolding.firstChild) {
+                    dynamicOptionSolding.removeChild(dynamicOptionSolding.firstChild);
+                }
+                dynamicOptionRental.appendChild(selectElement);
+                
+                var notes = document.createElement('p');
+                notes.innerText = "↑ cmdやCtrlを押しながら複数選択が可能です";
+
+            } else if (checkbox2.checked && checkbox1.checked) {
+                console.log("両方 がチェックされました");
+                //「売買物件検索」が選択された場合の選択肢フォームを生成
+                var selectElement = document.createElement('select');
+                selectElement.name = 'select_solding';
+                selectElement.multiple = true;
+                var options = JSON.parse('{{ solding_search_method_list | tojson }}');
+                options.forEach(function (option) {
+                    var optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectElement.appendChild(optionElement);
+                });
+                // dynamicOptionSolding の子要素を全て削除
+                while (dynamicOptionSolding.firstChild) {
+                    dynamicOptionSolding.removeChild(dynamicOptionSolding.firstChild);
+                }
+                dynamicOptionSolding.appendChild(selectElement);
+                var notes = document.createElement('p');
+                notes.innerText = "↑ cmdやCtrlを押しながら複数選択が可能です";
+
+                //「賃貸物件検索」が選択された場合の選択肢フォームを生成
+                var selectElement = document.createElement('select');
+                selectElement.name = 'select_rental';
+                selectElement.multiple = true;
+                var options = JSON.parse('{{ rental_search_method_list | tojson }}');
+                options.forEach(function (option) {
+                    var optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectElement.appendChild(optionElement);
+                });
+                // dynamicOptionSolding の子要素を全て削除
+                while (dynamicOptionRental.firstChild) {
+                    dynamicOptionRental.removeChild(dynamicOptionRental.firstChild);
+                }
+                dynamicOptionRental.appendChild(selectElement);
+                var notes = document.createElement('p');
+                notes.innerText = "↑ cmdやCtrlを押しながら複数選択が可能です";
+
+            } else {
+                // どちらのチェックボックスもチェックされていない場合の処理をここに記述
+                console.log("どちらのチェックボックスもチェックされていません");
+            }
+        }
+
+
+            // // チェックボックスがクリックされた時に呼び出す関数
+            // function checkboxClicked() {
+            //     // どちらかのチェックボックスが選択されたか確認
+            //     const soldingChecked = document.getElementsByName('search_solding')[0].checked;
+            //     const rentalChecked = document.getElementsByName('search_rental')[0].checked;
+
+            //     // どちらか一方のみが選択されている場合に処理を行う
+            //     if ((soldingChecked && !rentalChecked) || (!soldingChecked && rentalChecked)) {
+            //         // 選択されたオプションに基づいて動的な選択肢フォームを生成する関数
+            //         generateDynamicOptions();
+            //     }
+            // }
+
+            // // 選択されたオプションに基づいて動的な選択肢フォームを生成する関数
+            // function generateDynamicOptions(selectedValue) {
+            //     dynamicOptions.innerHTML = ''; // 既存の要素をクリア
+
+            //     // どちらかのチェックボックスが選択されているか確認
+            //     const soldingChecked = document.getElementsByName('search_solding')[0].checked;
+            //     console.log(soldingChecked)
+            //     const rentalChecked = document.getElementsByName('search_rental')[0].checked;
+
+
+            //     if (soldingChecked) {
+            //         //「売買物件検索」が選択された場合の選択肢フォームを生成
+            //         const selectElement = document.createElement('select');
+            //         selectElement.name = 'solding';
+            //         var options = JSON.parse('{{ solding_search_method_list | tojson }}');
+            //         options.forEach(function (option) {
+            //             const optionElement = document.createElement('option');
+            //             optionElement.value = option;
+            //             optionElement.textContent = option;
+            //             selectElement.appendChild(optionElement);
+            //         });
+            //         dynamicOptions.appendChild(selectElement);
+            //     } else if (rentalChecked) {
+            //         //「賃貸物件検索」が選択された場合の選択肢フォームを生成
+            //         const selectElement = document.createElement('select');
+            //         selectElement.name = 'rental';
+            //         var options = JSON.parse('{{ rental_search_method_list | tojson }}');
+            //         options.forEach(function (option) {
+            //             const optionElement = document.createElement('option');
+            //             optionElement.value = option;
+            //             optionElement.textContent = option;
+            //             selectElement.appendChild(optionElement);
+            //         });
+            //         dynamicOptions.appendChild(selectElement);
+            //     }
+            // }
+            
+
+
+            // document.addEventListener('DOMContentLoaded', function () {
+            //     const searchMethodSelect = document.getElementById('search_method');
+            //     const dynamicOptions = document.getElementById('dynamic_options');
+
+            //     // 初期表示時に動的な選択肢を生成
+            //     generateDynamicOptions();
+
+
+            //     // 選択肢フォームが変更されたときに呼び出す関数
+            //     // searchMethodSelect.addEventListener('change', function () {
+            //     //     generateDynamicOptions(this.value);
+            //     // });
+
+            // });
         </script>
     {% endif %}
 
