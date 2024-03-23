@@ -297,13 +297,11 @@ def schedule_mail():
 
 @app.route('/csv_download')
 def csv_download():
-    directory = os.path.join(app.root_path, 'files') 
-    return send_file(os.path.join(directory, output_reins_csv_path), as_attachment=True)
+    return send_file(output_reins_csv_path , as_attachment=True)
 
 @app.route('/excel_download')
 def excel_download():
-    directory = os.path.join(app.root_path, 'files') 
-    return send_file(os.path.join(directory, output_reins_excel_path), as_attachment=True)
+    return send_file(output_reins_excel_path , as_attachment=True)
 
 
 
